@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "google-ads": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GOOGLE_ADS_CLIENT_ID",
+        "-e",
+        "GOOGLE_ADS_CLIENT_SECRET",
+        "-e",
+        "GOOGLE_ADS_DEVELOPER_TOKEN",
+        "-e",
+        "GOOGLE_ADS_REFRESH_TOKEN",
+        "-e",
+        "GOOGLE_ADS_CUSTOMER_ID",
+        "-e",
+        "GOOGLE_ADS_LOGIN_CUSTOMER_ID",
+        "-e",
+        "SKIP_CONNECTION_TEST",
+        "yourusername/google-ads-mcp:latest"
+      ],
+      "env": {
+        "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
+        "GOOGLE_ADS_CLIENT_SECRET": "your-client-secret",
+        "GOOGLE_ADS_DEVELOPER_TOKEN": "your-developer-token",
+        "GOOGLE_ADS_REFRESH_TOKEN": "your-refresh-token",
+        "GOOGLE_ADS_CUSTOMER_ID": "1234567890",
+        "GOOGLE_ADS_LOGIN_CUSTOMER_ID": "9876543210",
+        "SKIP_CONNECTION_TEST": "true"
+      }
+    }
+  }
+}
+

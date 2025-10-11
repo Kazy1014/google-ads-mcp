@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "google-ads": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@yourusername/google-ads-mcp"
+      ],
+      "env": {
+        "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
+        "GOOGLE_ADS_CLIENT_SECRET": "your-client-secret",
+        "GOOGLE_ADS_DEVELOPER_TOKEN": "your-developer-token",
+        "GOOGLE_ADS_REFRESH_TOKEN": "your-refresh-token",
+        "GOOGLE_ADS_CUSTOMER_ID": "1234567890",
+        "GOOGLE_ADS_LOGIN_CUSTOMER_ID": "9876543210",
+        "SKIP_CONNECTION_TEST": "true"
+      }
+    }
+  }
+}

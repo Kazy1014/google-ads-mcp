@@ -1,0 +1,60 @@
+{
+  "name": "@yourusername/google-ads-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Google Ads API with Keyword Planner integration. Analyze keyword search volumes, competition, and trends.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "google-ads-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "scripts/",
+    "README.md",
+    "LICENSE",
+    "SETUP_GUIDE.md",
+    "USAGE_EXAMPLES.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/google-ads-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/google-ads-mcp/issues"
+  },
+  "homepage": "https://github.com/yourusername/google-ads-mcp#readme",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepare": "npm run build",
+    "get-refresh-token": "tsx scripts/get-refresh-token.ts"
+  },
+  "keywords": [
+    "mcp",
+    "google-ads",
+    "keyword-planner",
+    "claude",
+    "cross-platform"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "google-ads-api": "^21.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
