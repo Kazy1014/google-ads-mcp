@@ -1,10 +1,9 @@
 {
   "mcpServers": {
     "google-ads": {
-      "command": "npx",
+      "command": "node",
       "args": [
-        "-y",
-        "@yourusername/google-ads-mcp"
+        "C:/Users/YourUsername/Documents/google-ads-mcp/dist/index.js"
       ],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",

@@ -59,3 +59,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 # Entry point
 ENTRYPOINT ["node", "dist/index.js"]
 
+

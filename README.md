@@ -52,10 +52,10 @@ src/
 
 ```bash
 # npx で直接実行（インストール不要）
-npx @yourusername/google-ads-mcp
+npx @kazuya.oda/google-ads-mcp
 
 # またはグローバルインストール
-npm install -g @yourusername/google-ads-mcp
+npm install -g @kazuya.oda/google-ads-mcp
 ```
 
 Claude Desktop設定：
@@ -64,7 +64,7 @@ Claude Desktop設定：
   "mcpServers": {
     "google-ads": {
       "command": "npx",
-      "args": ["-y", "@yourusername/google-ads-mcp"],
+      "args": ["-y", "@kazuya.oda/google-ads-mcp"],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id",
         ...
@@ -79,7 +79,7 @@ Claude Desktop設定：
 ### オプション2: Docker
 
 ```bash
-docker pull yourusername/google-ads-mcp:latest
+docker pull kazy1014/google-ads-mcp:latest
 
 # または Docker Compose
 docker-compose up -d
@@ -210,6 +210,6 @@ MIT License - 詳細は [LICENSE](LICENSE) を参照
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Google Ads API Documentation](https://developers.google.com/google-ads/api/docs/start)
 - [google-ads-api npm package](https://www.npmjs.com/package/google-ads-api)
-- [npm Package](https://www.npmjs.com/package/@yourusername/google-ads-mcp)
-- [Docker Hub](https://hub.docker.com/r/yourusername/google-ads-mcp)
+- [npm Package](https://www.npmjs.com/package/@kazuya.oda/google-ads-mcp)
+- [Docker Hub](https://hub.docker.com/r/kazy1014/google-ads-mcp)
 

@@ -20,3 +20,4 @@ services:
     restart: unless-stopped
     # No port mapping needed (stdio communication)
 
+

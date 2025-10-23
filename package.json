@@ -1,5 +1,5 @@
 {
-  "name": "@yourusername/google-ads-mcp",
+  "name": "@kazuya.oda/google-ads-mcp",
   "version": "1.0.0",
   "description": "MCP server for Google Ads API with Keyword Planner integration. Analyze keyword search volumes, competition, and trends.",
   "type": "module",
@@ -17,12 +17,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/google-ads-mcp.git"
+    "url": "https://github.com/Kazy1014/google-ads-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/google-ads-mcp/issues"
+    "url": "https://github.com/Kazy1014/google-ads-mcp/issues"
   },
-  "homepage": "https://github.com/yourusername/google-ads-mcp#readme",
+  "homepage": "https://github.com/Kazy1014/google-ads-mcp#readme",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
