@@ -1,6 +1,6 @@
 {
   "name": "@kazuya.oda/google-ads-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for Google Ads API with Keyword Planner integration. Analyze keyword search volumes, competition, and trends.",
   "type": "module",
   "main": "dist/index.js",
