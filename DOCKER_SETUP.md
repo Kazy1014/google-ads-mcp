@@ -186,24 +186,24 @@ docker run -it --rm google-ads-mcp:latest sh -c 'env | grep GOOGLE_ADS'
 docker login
 
 # 2. イメージにタグ付け
-docker tag google-ads-mcp:latest yourusername/google-ads-mcp:latest
-docker tag google-ads-mcp:latest yourusername/google-ads-mcp:1.0.0
+docker tag google-ads-mcp:latest kazuyaoda/google-ads-mcp:latest
+docker tag google-ads-mcp:latest kazuyaoda/google-ads-mcp:1.0.0
 
 # 3. プッシュ
-docker push yourusername/google-ads-mcp:latest
-docker push yourusername/google-ads-mcp:1.0.0
+docker push kazuyaoda/google-ads-mcp:latest
+docker push kazuyaoda/google-ads-mcp:1.0.0
 ```
 
 ### 公開イメージの使用
 
 ```bash
 # イメージをプル
-docker pull yourusername/google-ads-mcp:latest
+docker pull kazuyaoda/google-ads-mcp:latest
 
 # 実行
 docker run -it --rm \
   -e GOOGLE_ADS_CLIENT_ID="..." \
-  yourusername/google-ads-mcp:latest
+  kazuyaoda/google-ads-mcp:latest
 ```
 
 ## 📊 パフォーマンス最適化
@@ -254,7 +254,7 @@ chmod 600 .env
 version: '3.8'
 services:
   google-ads-mcp:
-    image: yourusername/google-ads-mcp:1.0.0
+    image: kazuyaoda/google-ads-mcp:1.0.0
     restart: always
     env_file:
       - .env.production
@@ -275,7 +275,7 @@ metadata:
 spec:
   containers:
   - name: google-ads-mcp
-    image: yourusername/google-ads-mcp:1.0.0
+    image: kazuyaoda/google-ads-mcp:1.0.0
     env:
     - name: GOOGLE_ADS_CLIENT_ID
       valueFrom:
@@ -292,7 +292,7 @@ spec:
 ```bash
 # AMD64 と ARM64 の両方をサポート
 docker buildx build --platform linux/amd64,linux/arm64 \
-  -t yourusername/google-ads-mcp:latest \
+  -t kazuyaoda/google-ads-mcp:latest \
   --push .
 ```
 

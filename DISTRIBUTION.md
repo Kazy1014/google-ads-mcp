@@ -24,10 +24,10 @@ Google Ads MCPサーバーを誰でも簡単に使えるようにする3つの�
 
 ```bash
 # インストール不要で即使用
-npx @yourusername/google-ads-mcp
+npx @kazuya.oda/google-ads-mcp
 
 # またはグローバルインストール
-npm install -g @yourusername/google-ads-mcp
+npm install -g @kazuya.oda/google-ads-mcp
 google-ads-mcp
 ```
 
@@ -38,7 +38,7 @@ google-ads-mcp
   "mcpServers": {
     "google-ads": {
       "command": "npx",
-      "args": ["-y", "@yourusername/google-ads-mcp"],
+      "args": ["-y", "@kazuya.oda/google-ads-mcp"],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "...",
         "GOOGLE_ADS_CLIENT_SECRET": "...",
@@ -60,8 +60,8 @@ google-ads-mcp
 npm login
 
 # 2. package.jsonを更新
-# name: "@yourusername/google-ads-mcp"
-# repository: "https://github.com/yourusername/google-ads-mcp"
+# name: "@kazuya.oda/google-ads-mcp"
+# repository: "https://github.com/Kazy1014/google-ads-mcp"
 
 # 3. ビルド
 npm run build
@@ -99,13 +99,13 @@ npm publish
 
 ```bash
 # イメージをプル
-docker pull yourusername/google-ads-mcp:latest
+docker pull kazuyaoda/google-ads-mcp:latest
 
 # 実行
 docker run -i --rm \
   -e GOOGLE_ADS_CLIENT_ID="..." \
   -e GOOGLE_ADS_CLIENT_SECRET="..." \
-  yourusername/google-ads-mcp:latest
+  kazuyaoda/google-ads-mcp:latest
 
 # または Docker Compose
 docker-compose up -d
@@ -122,7 +122,7 @@ docker-compose up -d
         "run", "-i", "--rm",
         "-e", "GOOGLE_ADS_CLIENT_ID=...",
         "-e", "GOOGLE_ADS_CLIENT_SECRET=...",
-        "yourusername/google-ads-mcp:latest"
+        "kazuyaoda/google-ads-mcp:latest"
       ]
     }
   }
@@ -138,24 +138,24 @@ docker-compose up -d
 docker login
 
 # 2. イメージをビルド
-docker build -t yourusername/google-ads-mcp:latest .
-docker build -t yourusername/google-ads-mcp:1.0.0 .
+docker build -t kazuyaoda/google-ads-mcp:latest .
+docker build -t kazuyaoda/google-ads-mcp:1.0.0 .
 
 # 3. プッシュ
-docker push yourusername/google-ads-mcp:latest
-docker push yourusername/google-ads-mcp:1.0.0
+docker push kazuyaoda/google-ads-mcp:latest
+docker push kazuyaoda/google-ads-mcp:1.0.0
 ```
 
 ### 更新方法
 
 ```bash
 # 新バージョンのビルド
-docker build -t yourusername/google-ads-mcp:1.0.1 .
-docker tag yourusername/google-ads-mcp:1.0.1 yourusername/google-ads-mcp:latest
+docker build -t kazuyaoda/google-ads-mcp:1.0.1 .
+docker tag kazuyaoda/google-ads-mcp:1.0.1 kazuyaoda/google-ads-mcp:latest
 
 # プッシュ
-docker push yourusername/google-ads-mcp:1.0.1
-docker push yourusername/google-ads-mcp:latest
+docker push kazuyaoda/google-ads-mcp:1.0.1
+docker push kazuyaoda/google-ads-mcp:latest
 ```
 
 ---
@@ -238,23 +238,23 @@ SETUP_GUIDE.md
 ### npm
 
 ```markdown
-[![npm version](https://badge.fury.io/js/@yourusername%2Fgoogle-ads-mcp.svg)](https://www.npmjs.com/package/@yourusername/google-ads-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/@yourusername/google-ads-mcp.svg)](https://www.npmjs.com/package/@yourusername/google-ads-mcp)
+[![npm version](https://badge.fury.io/js/@kazuya.oda%2Fgoogle-ads-mcp.svg)](https://www.npmjs.com/package/@kazuya.oda/google-ads-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/@kazuya.oda/google-ads-mcp.svg)](https://www.npmjs.com/package/@kazuya.oda/google-ads-mcp)
 ```
 
 ### Docker
 
 ```markdown
-[![Docker Pulls](https://img.shields.io/docker/pulls/yourusername/google-ads-mcp.svg)](https://hub.docker.com/r/yourusername/google-ads-mcp)
-[![Docker Image Size](https://img.shields.io/docker/image-size/yourusername/google-ads-mcp/latest)](https://hub.docker.com/r/yourusername/google-ads-mcp)
+[![Docker Pulls](https://img.shields.io/docker/pulls/kazuyaoda/google-ads-mcp.svg)](https://hub.docker.com/r/kazuyaoda/google-ads-mcp)
+[![Docker Image Size](https://img.shields.io/docker/image-size/kazuyaoda/google-ads-mcp/latest)](https://hub.docker.com/r/kazuyaoda/google-ads-mcp)
 ```
 
 ### GitHub
 
 ```markdown
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/google-ads-mcp.svg)](https://github.com/yourusername/google-ads-mcp/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/yourusername/google-ads-mcp.svg)](https://github.com/yourusername/google-ads-mcp/issues)
-[![License](https://img.shields.io/github/license/yourusername/google-ads-mcp.svg)](https://github.com/yourusername/google-ads-mcp/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/Kazy1014/google-ads-mcp.svg)](https://github.com/Kazy1014/google-ads-mcp/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/Kazy1014/google-ads-mcp.svg)](https://github.com/Kazy1014/google-ads-mcp/issues)
+[![License](https://img.shields.io/github/license/Kazy1014/google-ads-mcp.svg)](https://github.com/Kazy1014/google-ads-mcp/blob/main/LICENSE)
 ```
 
 ---

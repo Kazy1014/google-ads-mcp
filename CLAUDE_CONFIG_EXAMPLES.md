@@ -23,7 +23,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "@yourusername/google-ads-mcp"
+        "@kazuya.oda/google-ads-mcp"
       ],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
@@ -53,7 +53,7 @@
 
 **事前準備：**
 ```bash
-npm install -g @yourusername/google-ads-mcp
+npm install -g @kazuya.oda/google-ads-mcp
 ```
 
 **ファイル**: `claude-config-example-npm-global.json`
@@ -81,7 +81,7 @@ npm install -g @yourusername/google-ads-mcp
 **特徴：**
 - ✅ 起動が高速
 - ✅ オフラインでも動作
-- ⚠️ 更新は手動（`npm update -g @yourusername/google-ads-mcp`）
+- ⚠️ 更新は手動（`npm update -g @kazuya.oda/google-ads-mcp`）
 
 ---
 
@@ -91,7 +91,7 @@ npm install -g @yourusername/google-ads-mcp
 
 **事前準備：**
 ```bash
-docker pull yourusername/google-ads-mcp:latest
+docker pull kazuyaoda/google-ads-mcp:latest
 ```
 
 **ファイル**: `claude-config-example-docker.json`
@@ -119,7 +119,7 @@ docker pull yourusername/google-ads-mcp:latest
         "GOOGLE_ADS_LOGIN_CUSTOMER_ID",
         "-e",
         "SKIP_CONNECTION_TEST",
-        "yourusername/google-ads-mcp:latest"
+        "kazuyaoda/google-ads-mcp:latest"
       ],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
@@ -202,7 +202,7 @@ docker pull yourusername/google-ads-mcp:latest
 }
 ```
 
-事前に：`npm install -g @yourusername/google-ads-mcp`
+事前に：`npm install -g @kazuya.oda/google-ads-mcp`
 
 ### 環境変数が認識されない
 
@@ -215,7 +215,7 @@ Claude Desktop設定ファイルの `env` セクションに正しく記載さ�
 docker ps
 
 # イメージをプル
-docker pull yourusername/google-ads-mcp:latest
+docker pull kazuyaoda/google-ads-mcp:latest
 ```
 
 ---

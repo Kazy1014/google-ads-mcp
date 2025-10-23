@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "@yourusername/google-ads-mcp"
+        "@kazuya.oda/google-ads-mcp"
       ],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",

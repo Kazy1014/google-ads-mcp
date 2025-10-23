@@ -16,7 +16,7 @@
 ```powershell
 # PowerShellを管理者として開く
 cd C:\Users\YourUsername\Documents
-git clone https://github.com/yourusername/google-ads-mcp.git
+git clone https://github.com/Kazy1014/google-ads-mcp.git
 cd google-ads-mcp
 
 # または、ZIPをダウンロードして解凍

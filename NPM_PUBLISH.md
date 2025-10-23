@@ -8,17 +8,17 @@
 
 ```bash
 # インストールが超簡単！
-npx @yourusername/google-ads-mcp
+npx @kazuya.oda/google-ads-mcp
 
 # またはグローバルインストール
-npm install -g @yourusername/google-ads-mcp
+npm install -g @kazuya.oda/google-ads-mcp
 
 # Claude Desktop設定もシンプルに
 {
   "mcpServers": {
     "google-ads": {
       "command": "npx",
-      "args": ["-y", "@yourusername/google-ads-mcp"]
+      "args": ["-y", "@kazuya.oda/google-ads-mcp"]
     }
   }
 }
@@ -48,11 +48,11 @@ npm login
 
 ```json
 {
-  "name": "@yourusername/google-ads-mcp",  // ← 自分のユーザー名に変更
+  "name": "@kazuya.oda/google-ads-mcp",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/google-ads-mcp.git"  // ← 実際のURL
+    "url": "https://github.com/Kazy1014/google-ads-mcp.git"
   }
 }
 ```
@@ -104,7 +104,7 @@ npm publish
   "mcpServers": {
     "google-ads": {
       "command": "npx",
-      "args": ["-y", "@yourusername/google-ads-mcp"],
+      "args": ["-y", "@kazuya.oda/google-ads-mcp"],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id",
         "GOOGLE_ADS_CLIENT_SECRET": "your-secret",
@@ -122,7 +122,7 @@ npm publish
 
 ```bash
 # インストール
-npm install -g @yourusername/google-ads-mcp
+npm install -g @kazuya.oda/google-ads-mcp
 ```
 
 ```json
@@ -168,8 +168,8 @@ npm publish
 
 公開後、以下のサイトで統計を確認できます：
 
-- **npm**: https://www.npmjs.com/package/@yourusername/google-ads-mcp
-- **npms.io**: https://npms.io/search?q=%40yourusername%2Fgoogle-ads-mcp
+- **npm**: https://www.npmjs.com/package/@kazuya.oda/google-ads-mcp
+- **npms.io**: https://npms.io/search?q=%40kazuya.oda%2Fgoogle-ads-mcp
 
 ## 🔒 セキュリティ
 
@@ -213,7 +213,7 @@ rm -rf package/ google-ads-mcp-1.0.0.tgz
 
 ```json
 {
-  "name": "@yourusername/google-ads-mcp"  // ✅ 推奨
+  "name": "@kazuya.oda/google-ads-mcp"  // ✅ 推奨
   // または
   "name": "@yourorg/google-ads-mcp"
 }
@@ -230,7 +230,7 @@ rm -rf package/ google-ads-mcp-1.0.0.tgz
 
 1. **GitHub**: READMEにnpmバッジを追加
    ```markdown
-   [![npm version](https://badge.fury.io/js/@yourusername%2Fgoogle-ads-mcp.svg)](https://www.npmjs.com/package/@yourusername/google-ads-mcp)
+   [![npm version](https://badge.fury.io/js/@kazuya.oda%2Fgoogle-ads-mcp.svg)](https://www.npmjs.com/package/@kazuya.oda/google-ads-mcp)
    ```
 
 2. **ドキュメント**: インストール手順を更新
@@ -255,7 +255,7 @@ npm login
 パッケージ名を変更するか、スコープを追加：
 ```json
 {
-  "name": "@yourusername/google-ads-mcp"
+  "name": "@kazuya.oda/google-ads-mcp"
 }
 ```
 
