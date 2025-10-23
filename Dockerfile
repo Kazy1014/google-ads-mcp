@@ -9,15 +9,14 @@ WORKDIR /app
 # Copy package files
 COPY package*.json tsconfig.json ./
 
-# Install dependencies
-RUN npm ci
-
-# Copy source code
+# Copy source code (needed before npm ci due to prepare script)
 COPY src/ ./src/
 COPY scripts/ ./scripts/
 
-# Build TypeScript
-RUN npm run build
+# Install dependencies and build
+RUN npm ci
+
+# Build is handled by prepare script in package.json
 
 # Production stage
 FROM node:20-alpine
@@ -29,7 +28,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies only
-RUN npm ci --omit=dev && \
+# Use --ignore-scripts to skip prepare script (TypeScript already built)
+RUN npm ci --omit=dev --ignore-scripts && \
     npm cache clean --force
 
 # Copy built files from builder
