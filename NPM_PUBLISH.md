@@ -266,6 +266,50 @@ npm login
 # ユーザー名、パスワード、メールアドレスを入力
 ```
 
+### "Two-factor authentication or granular access token with bypass 2fa enabled is required"
+
+スコープ付きパッケージ（`@username/package-name`）を公開するには、npmアカウントで2要素認証（2FA）を有効にする必要があります。
+
+#### 方法1: npmで2FAを有効化（推奨）
+
+1. **npmウェブサイトで2FAを有効化**
+   - https://www.npmjs.com/settings/[your-username]/security にアクセス
+   - "Two-Factor Authentication" セクションで有効化
+   - 認証アプリ（Google Authenticator、Authyなど）を使用して設定
+
+2. **公開を再試行**
+   ```bash
+   npm publish --access public
+   ```
+   公開時に2FAコードの入力が求められます。
+
+#### 方法2: 細かいアクセストークンを使用
+
+2FAを有効にしたくない場合、2FAバイパス権限付きのアクセストークンを作成：
+
+1. **npmでアクセストークンを作成**
+   - https://www.npmjs.com/settings/[your-username]/tokens にアクセス
+   - "Generate New Token" → "Granular Access Token" を選択
+   - スコープ: `Publish` を選択
+   - パッケージ: `@kazuya.oda/google-ads-mcp` を指定
+   - "Bypass 2FA" オプションを有効化
+
+2. **トークンを使用してログイン**
+   ```bash
+   npm logout
+   npm login --auth-type=legacy
+   # Username: [your-username]
+   # Password: [生成したトークン]
+   # Email: [your-email]
+   ```
+
+3. **公開を再試行**
+   ```bash
+   npm publish --access public
+   ```
+
+**注意**: セキュリティのため、方法1（2FA有効化）を推奨します。
+
 ## 🔗 参考リンク
 
 - [npm Publishing Guide](https://docs.npmjs.com/cli/v9/commands/npm-publish)

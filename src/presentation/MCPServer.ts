@@ -198,10 +198,18 @@ export class MCPServer {
   }
 
   async start(): Promise<void> {
-    const transport = new StdioServerTransport();
-    await this.server.connect(transport);
-    
-    console.error('Google Ads MCP Server running on stdio');
+    try {
+      const transport = new StdioServerTransport();
+      await this.server.connect(transport);
+      
+      console.error('Google Ads MCP Server running on stdio');
+    } catch (error) {
+      console.error('Failed to start MCP server:', error instanceof Error ? error.message : error);
+      if (error instanceof Error && error.stack) {
+        console.error('Stack trace:', error.stack);
+      }
+      throw error;
+    }
   }
 }
 

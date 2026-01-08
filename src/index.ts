@@ -20,11 +20,16 @@ process.on('warning', (warning) => {
 
 async function main() {
   try {
+    console.error('Starting Google Ads MCP Server...');
+    
     // Load and validate configuration
+    console.error('Loading configuration...');
     const config = ConfigLoader.loadFromEnvironment();
     ConfigLoader.validate(config);
+    console.error('Configuration loaded successfully');
 
     // Initialize infrastructure layer
+    console.error('Initializing Google Ads client...');
     const googleAdsClient = new GoogleAdsClient(config);
     
     // Test connection (skip if SKIP_CONNECTION_TEST is set)
@@ -43,23 +48,30 @@ async function main() {
     }
 
     // Initialize domain layer
+    console.error('Initializing domain services...');
     const keywordPlannerService = new KeywordPlannerService(googleAdsClient);
 
     // Initialize application layer
+    console.error('Initializing application layer...');
     const keywordPlannerUseCase = new KeywordPlannerUseCase(keywordPlannerService);
 
     // Initialize and start MCP server
+    console.error('Initializing MCP server...');
     const mcpServer = new MCPServer(keywordPlannerUseCase);
+    console.error('Starting MCP server transport...');
     await mcpServer.start();
   } catch (error) {
+    console.error('Fatal error during server startup:');
     if (error instanceof GoogleAdsError) {
-      console.error(`Error: ${error.message}`);
+      console.error(`GoogleAdsError: ${error.message}`);
       if (error.details) {
         console.error('Details:', error.details);
       }
     } else if (error instanceof Error) {
-      console.error('Unexpected error:', error.message);
-      console.error(error.stack);
+      console.error(`Error: ${error.message}`);
+      if (error.stack) {
+        console.error('Stack trace:', error.stack);
+      }
     } else {
       console.error('Unknown error:', error);
     }
