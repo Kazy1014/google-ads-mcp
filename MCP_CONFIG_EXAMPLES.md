@@ -1,12 +1,20 @@
-# Claude Desktop 設定例
+# MCP設定例 - MCPクライアント別設定ガイド
 
-配布方法に応じたClaude Desktop設定ファイル（`claude_desktop_config.json`）の例です。
+このドキュメントでは、各MCPクライアント（Claude Desktop、Cursorなど）向けの設定例を紹介します。
 
 ## 📍 設定ファイルの場所
+
+### Claude Desktop
 
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 - **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+### Cursor
+
+- **macOS**: `~/.cursor/mcp.json`
+- **Windows**: `%USERPROFILE%\.cursor\mcp.json`
+- **Linux**: `~/.cursor/mcp.json`
 
 ---
 
@@ -14,7 +22,9 @@
 
 インストール不要で最新版を常に使用。最も簡単な方法です。
 
-**ファイル**: `claude-config-example.json`
+> **注意**: 設定内容はClaude DesktopとCursorで共通です。保存先のファイルパスだけが異なります（上記参照）。
+
+**参考ファイル**: `claude-config-example.json` / `cursor-mcp-example.json`
 
 ```json
 {
@@ -44,6 +54,7 @@
 - ✅ 自動的に最新版を使用
 - ✅ クロスプラットフォーム
 - ✅ 最も推奨
+- ✅ Claude Desktop / Cursor共通設定
 
 ---
 
@@ -56,7 +67,7 @@
 npm install -g @kazuya.oda/google-ads-mcp
 ```
 
-**ファイル**: `claude-config-example-npm-global.json`
+> **注意**: 設定内容はClaude DesktopとCursorで共通です。
 
 ```json
 {
@@ -81,6 +92,7 @@ npm install -g @kazuya.oda/google-ads-mcp
 **特徴：**
 - ✅ 起動が高速
 - ✅ オフラインでも動作
+- ✅ Claude Desktop / Cursor共通設定
 - ⚠️ 更新は手動（`npm update -g @kazuya.oda/google-ads-mcp`）
 
 ---
@@ -94,7 +106,7 @@ npm install -g @kazuya.oda/google-ads-mcp
 docker pull kazuyaoda/google-ads-mcp:latest
 ```
 
-**ファイル**: `claude-config-example-docker.json`
+> **注意**: 設定内容はClaude DesktopとCursorで共通です。
 
 ```json
 {
@@ -138,6 +150,7 @@ docker pull kazuyaoda/google-ads-mcp:latest
 **特徴：**
 - ✅ 完全な環境分離
 - ✅ 一貫した動作保証
+- ✅ Claude Desktop / Cursor共通設定
 - ⚠️ Docker Desktopが必要
 - ⚠️ 初回起動がやや遅い
 
@@ -183,11 +196,22 @@ docker pull kazuyaoda/google-ads-mcp:latest
 
 ## 📝 設定ファイルの適用方法
 
+### Claude Desktop
+
 1. 上記の設定をコピー
 2. 環境変数を実際の値に置き換え
-3. Claude Desktop設定ファイルに保存
-4. Claude Desktopを完全に終了
+3. `claude_desktop_config.json` に保存
+4. Claude Desktopを完全に終了（Cmd/Ctrl + Q）
 5. Claude Desktopを再起動
+
+### Cursor
+
+1. 上記の設定をコピー
+2. 環境変数を実際の値に置き換え
+3. Cursorで `Cmd/Ctrl + Shift + P` を押す
+4. "MCP: Edit Configuration" を検索して選択
+5. 設定を貼り付けて保存
+6. Cursorを再起動
 
 ---
 
@@ -206,7 +230,14 @@ docker pull kazuyaoda/google-ads-mcp:latest
 
 ### 環境変数が認識されない
 
-Claude Desktop設定ファイルの `env` セクションに正しく記載されているか確認してください。
+MCPクライアント設定ファイルの `env` セクションに正しく記載されているか確認してください。
+
+### Cursorで設定が反映されない
+
+1. Cursorを完全に終了
+2. `~/.cursor/mcp.json` ファイルが正しく保存されているか確認
+3. Cursorを再起動
+4. 開発者ツールのコンソールでエラーを確認（`Help` → `Toggle Developer Tools`）
 
 ### Dockerが起動しない
 

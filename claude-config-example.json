@@ -1,4 +1,7 @@
 {
+  "_comment": "このファイルはClaude Desktop用の設定例です。Cursorでも同じフォーマットが使えます（設定ファイルの場所は異なります）。",
+  "_claude_desktop_path": "macOS: ~/Library/Application Support/Claude/claude_desktop_config.json | Windows: %APPDATA%\\Claude\\claude_desktop_config.json",
+  "_cursor_path": "macOS: ~/.cursor/mcp.json | Windows: %USERPROFILE%\\.cursor\\mcp.json",
   "mcpServers": {
     "google-ads": {
       "command": "npx",

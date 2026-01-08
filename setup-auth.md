@@ -168,6 +168,8 @@ curl -X POST https://oauth2.googleapis.com/token \
 
 ## ステップ7: 環境変数の設定
 
+### 開発環境の場合
+
 プロジェクトのルートディレクトリに`.env`ファイルを作成：
 
 ```bash
@@ -176,9 +178,23 @@ GOOGLE_ADS_CLIENT_SECRET=your-client-secret
 GOOGLE_ADS_DEVELOPER_TOKEN=your-developer-token
 GOOGLE_ADS_REFRESH_TOKEN=your-refresh-token
 GOOGLE_ADS_CUSTOMER_ID=1234567890
+GOOGLE_ADS_LOGIN_CUSTOMER_ID=9876543210
 ```
 
-または、Claude Desktop設定に直接記述します（README.mdを参照）。
+### MCPクライアントで使用する場合
+
+MCPクライアント（Claude Desktop、Cursorなど）の設定ファイルに直接記述します。
+詳細は `MCP_CONFIG_EXAMPLES.md` を参照してください。
+
+#### 設定ファイルの場所
+
+**Claude Desktop:**
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+**Cursor:**
+- macOS: `~/.cursor/mcp.json`
+- Windows: `%USERPROFILE%\.cursor\mcp.json`
 
 ## トラブルシューティング
 
@@ -194,7 +210,7 @@ GOOGLE_ADS_CUSTOMER_ID=1234567890
 4. 画面下部の「**テストユーザー**」セクションを探す
 5. 「**+ ADD USERS**」をクリック
 6. Google Adsで使用する**Gmailアドレスを追加**
-   - 例：`kazy.daily.life@gmail.com`
+   - 例：`your-email@gmail.com`
 7. 「保存」をクリック
 8. 数分待ってから、再度認証URLにアクセス
 
@@ -224,9 +240,18 @@ OAuth同意画面で「このアプリは確認されていません」という
 2. 「[アプリ名]に移動（安全ではないページ）」をクリック
 3. これは自分で作成したアプリなので、安全です
 
+## 次のステップ
+
+認証情報の取得が完了したら：
+
+1. `MCP_CONFIG_EXAMPLES.md` を参照してMCPクライアント設定を行う
+2. MCPクライアント（Claude Desktop / Cursor）を再起動
+3. AI Assistantでキーワード分析を試す
+
 ## 参考リンク
 
 - [Google Ads API Getting Started](https://developers.google.com/google-ads/api/docs/start)
 - [OAuth2 Authentication](https://developers.google.com/google-ads/api/docs/oauth/overview)
 - [Developer Token Application](https://developers.google.com/google-ads/api/docs/get-started/dev-token)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
 

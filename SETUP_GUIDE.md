@@ -2,6 +2,13 @@
 
 このガイドでは、Google Ads MCPサーバーを最短で動作させる手順を説明します。
 
+## 🎯 対応クライアント
+
+このMCPサーバーは以下のクライアントで使用できます：
+- ✅ **Claude Desktop** - Anthropic公式デスクトップアプリ
+- ✅ **Cursor** - AI統合エディタ
+- ✅ その他MCPプロトコル対応クライアント
+
 ## 🚀 クイックスタート
 
 ### 1. 必要な認証情報
@@ -94,23 +101,30 @@ npm run get-refresh-token
 5. 認証コードをコピーして貼り付け
 6. 表示されるRefresh Tokenをメモ
 
-### 5. Claude Desktop設定
+### 5. MCPクライアント設定
 
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`  
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`  
-（実際のパス例: `C:\Users\YourUsername\AppData\Roaming\Claude\claude_desktop_config.json`）
+#### 設定ファイルの場所
+
+**Claude Desktop:**
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+  （実際のパス例: `C:\Users\YourUsername\AppData\Roaming\Claude\claude_desktop_config.json`）
+
+**Cursor:**
+- **macOS**: `~/.cursor/mcp.json`
+- **Windows**: `%USERPROFILE%\.cursor\mcp.json`
 
 **Windows ユーザーへ:** 詳細な手順は `WINDOWS_SETUP.md` を参照してください。
 
-**macOS / Linux:**
+#### 設定例（npx使用 - 推奨）
+
+**Claude Desktop / Cursor共通:**
 ```json
 {
   "mcpServers": {
     "google-ads": {
-      "command": "node",
-      "args": [
-        "/Users/YOUR_USERNAME/Development/MCP/google-ads-mcp/dist/index.js"
-      ],
+      "command": "npx",
+      "args": ["-y", "@kazuya.oda/google-ads-mcp"],
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_ADS_CLIENT_SECRET": "GOCSPX-xxxxx",
@@ -125,24 +139,38 @@ npm run get-refresh-token
 }
 ```
 
+より多くの設定例は `MCP_CONFIG_EXAMPLES.md` を参照してください。
+
 **重要な設定:**
 - `GOOGLE_ADS_CUSTOMER_ID`: 使用するアカウントのID（10桁、ハイフンなし）
 - `GOOGLE_ADS_LOGIN_CUSTOMER_ID`: MCCアカウントのID（MCCアカウント使用時のみ必要）
 - `SKIP_CONNECTION_TEST`: `"true"` を推奨（アカウント接続テストをスキップ）
 
-### 6. Claude Desktopを再起動
+### 6. MCPクライアントを再起動
 
+#### Claude Desktop
 設定を保存したら、Claude Desktopを完全に終了（Cmd/Ctrl + Q）して再起動
+
+#### Cursor
+1. Cursorで `Cmd/Ctrl + Shift + P` を押す
+2. "MCP: Edit Configuration" で設定を開いて保存
+3. Cursorを再起動（Cmd/Ctrl + Q）
 
 ## ✅ 動作確認
 
-Claudeに以下のように質問：
+AI Assistantに以下のように質問：
 
 ```
 「AI」というキーワードの全世界での検索ボリュームを調べてください
 ```
 
 成功すると、月間検索数、競合度、トレンドなどの情報が表示されます。
+
+### Claude Desktop
+チャットで質問すると、MCPツールが自動的に呼び出されます。
+
+### Cursor
+エディタ内でChatを開き（Cmd/Ctrl + L）、質問してください。
 
 ## 🔧 トラブルシューティング
 
@@ -157,6 +185,11 @@ Claudeに以下のように質問：
 
 ### エラー: "Customer account can't be accessed"
 → アカウントが有効化されているか確認
+
+### MCPツールが見つからない（Cursor）
+1. `~/.cursor/mcp.json` が正しく保存されているか確認
+2. Cursorを完全に再起動
+3. 開発者ツールでエラーログを確認（`Help` → `Toggle Developer Tools`）
 
 ## 📚 詳細ガイド
 

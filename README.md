@@ -1,6 +1,12 @@
 # Google Ads MCP Server
 
-Model Context Protocol (MCP) サーバーで、ClaudeからGoogle Ads APIのキーワードプランナー機能にアクセスできます。特定のキーワードに関する全世界の検索ボリュームや興味関心を調査できます。
+Model Context Protocol (MCP) サーバーで、AI Assistant（Claude Desktop、Cursorなど）からGoogle Ads APIのキーワードプランナー機能にアクセスできます。特定のキーワードに関する全世界の検索ボリュームや興味関心を調査できます。
+
+## 🎯 対応クライアント
+
+- ✅ **Claude Desktop** - Anthropic公式デスクトップアプリ
+- ✅ **Cursor** - AI統合エディタ
+- ✅ その他MCPプロトコル対応クライアント
 
 ## 機能
 
@@ -58,7 +64,9 @@ npx @kazuya.oda/google-ads-mcp
 npm install -g @kazuya.oda/google-ads-mcp
 ```
 
-Claude Desktop設定：
+MCPクライアント設定例：
+
+**Claude Desktop** (`claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
@@ -74,7 +82,23 @@ Claude Desktop設定：
 }
 ```
 
-詳細は `NPM_PUBLISH.md` を参照。
+**Cursor** (`mcp.json`):
+```json
+{
+  "mcpServers": {
+    "google-ads": {
+      "command": "npx",
+      "args": ["-y", "@kazuya.oda/google-ads-mcp"],
+      "env": {
+        "GOOGLE_ADS_CLIENT_ID": "your-client-id",
+        ...
+      }
+    }
+  }
+}
+```
+
+詳細は `MCP_CONFIG_EXAMPLES.md` を参照。
 
 ### オプション2: Docker
 
@@ -121,27 +145,40 @@ npm run get-refresh-token
 このスクリプトが対話的にRefresh Tokenの取得をサポートします。
 詳細な手順は `setup-auth.md` を参照してください。
 
-### 2. Claude Desktop設定
+### 2. MCPクライアント設定
 
-取得した認証情報をClaude Desktop設定ファイルに追加します。
+取得した認証情報をMCPクライアントの設定ファイルに追加します。
 
-設定例は `CLAUDE_CONFIG_EXAMPLES.md` を参照してください。
+#### 設定ファイルの場所
+
+**Claude Desktop:**
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
+
+**Cursor:**
+- macOS: `~/.cursor/mcp.json`
+- Windows: `%USERPROFILE%\.cursor\mcp.json`
+- Linux: `~/.cursor/mcp.json`
+
+設定例は `MCP_CONFIG_EXAMPLES.md` を参照してください。
 
 ## 使用方法
 
-### Claudeで使用
+設定完了後、AI Assistantに以下のように質問できます：
 
-Claudeに以下のように質問できます：
-
+**例1: グローバル検索ボリューム分析**
 ```
 「AI」というキーワードの全世界での検索ボリュームを調べてください
 ```
 
+**例2: 地域別キーワード分析**
 ```
 「機械学習」「深層学習」「AI」のキーワードについて、
 日本での月間検索数と競合度を分析してください
 ```
 
+**例3: 関連キーワード提案**
 ```
 「クラウドコンピューティング」に関連するキーワードを提案してください
 ```
@@ -165,7 +202,7 @@ export $(cat .env | xargs) && node dist/index.js
 
 ### "Missing required Google Ads configuration" エラー
 
-環境変数が正しく設定されているか確認してください。Claude Desktop設定ファイルの`env`セクションをチェック。
+環境変数が正しく設定されているか確認してください。MCPクライアント設定ファイルの`env`セクションをチェック。
 
 ### "Failed to connect to Google Ads API" エラー
 
@@ -184,6 +221,7 @@ MIT
 ## 📚 ドキュメント
 
 - `SETUP_GUIDE.md` - クイックスタートガイド
+- `MCP_CONFIG_EXAMPLES.md` - MCPクライアント別設定例
 - `WINDOWS_SETUP.md` - Windows専用セットアップ
 - `NPM_PUBLISH.md` - npmパッケージ公開ガイド
 - `DOCKER_SETUP.md` - Docker使用ガイド
