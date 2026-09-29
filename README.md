@@ -1,266 +1,68 @@
-# Google Ads MCP Server
+# google-keyword-planner
 
-Model Context Protocol (MCP) サーバーで、AI Assistant（Claude Desktop、Cursorなど）からGoogle Ads APIのキーワードプランナー機能にアクセスできます。特定のキーワードに関する全世界の検索ボリュームや興味関心を調査できます。
+Google Ads APIのキーワード調査を、Codex・AGY・Claude DesktopなどのMCPクライアントから利用するOSSです。利用者自身のGoogle Cloudプロジェクト、OAuthクライアント、Google Adsアカウントを使用します。
 
-## 🎯 対応クライアント
+## 2026年9月の認証方式に対応（2026-09-30更新）
 
-- ✅ **Claude Desktop** - Anthropic公式デスクトップアプリ
-- ✅ **Cursor** - AI統合エディタ
-- ✅ その他MCPプロトコル対応クライアント
+- Google Ads API v25 / Node.js 22.9以上に対応しました。
+- APIのアクセス権限はGoogle Cloudプロジェクト単位で管理します。Developer Tokenの新規取得は不要です。
+- キーワードプランナーにはBasic以上のアクセスが必要です。ExplorerではPlanning機能が制限されます。
+- Basic申請に必要なブランド確認は、利用者が自分のアプリ名・連絡先・所有ドメイン・公開ページで行います。このOSSの配布元のブランドや認可は共有できません。
+- Refresh Token取得ヘルパーを、廃止済みOOB方式からloopbackコールバック＋PKCEへ変更しました。
 
-## 機能
+[更新履歴](CHANGELOG.md)・[新方式の設定手順](CLOUD_AUTH_SETUP.md)・[公式の移行案内](https://developers.google.com/google-ads/api/docs/api-policy/developer-token)
 
-### 利用可能なツール
+MCPの公開識別名・設定キーは `google-keyword-planner` です。既存のnpmパッケージ名とリポジトリ名は互換性のため維持しています。
 
-1. **analyze_global_keyword_interest**
-   - 指定したキーワードの全世界での検索ボリュームと競合度を分析
-   - 月間平均検索数、競合レベル、トレンド情報を提供
+## はじめに
 
-2. **analyze_keywords_by_location**
-   - 特定の地域でのキーワード分析
-   - 地域別のマーケティング戦略に有用
+1. [CLOUD_AUTH_SETUP.md](CLOUD_AUTH_SETUP.md)：自分のプロジェクトを作り、Explorer・ブランド確認・Basic申請を進める。
+2. [setup-auth.md](setup-auth.md)：自分のOAuthクライアントでRefresh Tokenを取得する。
+3. [SETUP_GUIDE.md](SETUP_GUIDE.md)：ソースをビルドし、ローカルの環境ファイルへ設定する。
+4. [MCP_CONFIG_EXAMPLES.md](MCP_CONFIG_EXAMPLES.md)：利用するクライアントのユーザー共通MCPとして登録する。
 
-3. **get_detailed_keyword_plan**
-   - 関連キーワードを含む包括的なキーワードプラン
-   - SEO戦略やコンテンツ計画に最適
+この更新はGitHubのソースに対するものです。既存のnpmパッケージやDocker Hubイメージへ自動的には反映されません。新方式は当面このソースからビルドして使用してください。
 
-## アーキテクチャ
+## ツール
 
-このプロジェクトはメンテナンス性を重視したレイヤードアーキテクチャを採用しています：
+| 名前 | 機能 |
+| --- | --- |
+| `analyze_global_keyword_interest` | 実装で指定した主要6か国・英語条件のキーワード指標 |
+| `analyze_keywords_by_location` | 地域IDを指定した指標（既定言語は英語） |
+| `get_detailed_keyword_plan` | キーワード指標と関連キーワード候補 |
 
-```
-src/
-├── index.ts                    # エントリーポイント
-├── types/                      # 型定義
-│   └── index.ts
-├── config/                     # 設定管理
-│   └── ConfigLoader.ts
-├── infrastructure/             # インフラストラクチャ層
-│   └── GoogleAdsClient.ts      # Google Ads API クライアント
-├── domain/                     # ドメイン層
-│   └── KeywordPlannerService.ts # ビジネスロジック
-├── application/                # アプリケーション層
-│   └── KeywordPlannerUseCase.ts # ユースケース
-└── presentation/               # プレゼンテーション層
-    └── MCPServer.ts            # MCP サーバー実装
-```
+`global`という名前ですが、全世界・全言語の合計を保証するものではありません。現在の実装の対象国は米国・英国・日本・ドイツ・フランス・カナダです。検索需要の推計値や広告競合度は、検索結果のSEO難易度とは異なります。
 
-### レイヤーの役割
-
-- **Presentation Layer**: MCPプロトコルの処理
-- **Application Layer**: ユースケースの実装、ビジネスフローの制御
-- **Domain Layer**: コアビジネスロジック
-- **Infrastructure Layer**: 外部API連携
-
-## 📦 インストール方法
-
-### オプション1: npm/npx（最も簡単・推奨）
-
-```bash
-# npx で直接実行（インストール不要）
-npx @kazuya.oda/google-ads-mcp
-
-# またはグローバルインストール
-npm install -g @kazuya.oda/google-ads-mcp
-```
-
-MCPクライアント設定例：
-
-**Claude Desktop** (`claude_desktop_config.json`):
-```json
-{
-  "mcpServers": {
-    "google-ads": {
-      "command": "npx",
-      "args": ["-y", "@kazuya.oda/google-ads-mcp"],
-      "env": {
-        "GOOGLE_ADS_CLIENT_ID": "your-client-id",
-        ...
-      }
-    }
-  }
-}
-```
-
-**Cursor** (`mcp.json`):
-```json
-{
-  "mcpServers": {
-    "google-ads": {
-      "command": "npx",
-      "args": ["-y", "@kazuya.oda/google-ads-mcp"],
-      "env": {
-        "GOOGLE_ADS_CLIENT_ID": "your-client-id",
-        ...
-      }
-    }
-  }
-}
-```
-
-詳細は `MCP_CONFIG_EXAMPLES.md` を参照。
-
-### オプション2: Docker
-
-```bash
-docker pull kazy1014/google-ads-mcp:latest
-
-# または Docker Compose
-docker-compose up -d
-```
-
-詳細は `DOCKER_SETUP.md` を参照。
-
----
-
-**開発者向け:** ソースからビルドする場合は、リポジトリをクローンして `npm install && npm run build` を実行してください。
-
-## セットアップ（認証情報の取得）
-
-### 1. Google Ads API認証情報の取得
-
-Google Ads APIを使用するには以下が必要です：
-
-#### a. Google Cloud Projectの設定
-
-1. [Google Cloud Console](https://console.cloud.google.com/) にアクセス
-2. 新しいプロジェクトを作成
-3. Google Ads APIを有効化
-4. OAuth 2.0クライアントIDを作成（デスクトップアプリケーション）
-
-#### b. Developer Tokenの取得
-
-1. [Google Ads](https://ads.google.com/) にログイン
-2. Tools & Settings → Setup → API Center
-3. Developer tokenを申請（テスト用でもOK）
-
-#### c. Refresh Tokenの取得
-
-**簡単！ヘルパースクリプトを使用：**
-
-```bash
-npm run get-refresh-token
-```
-
-このスクリプトが対話的にRefresh Tokenの取得をサポートします。
-詳細な手順は `setup-auth.md` を参照してください。
-
-### 2. MCPクライアント設定
-
-取得した認証情報をMCPクライアントの設定ファイルに追加します。
-
-#### 設定ファイルの場所
-
-**Claude Desktop:**
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-- Linux: `~/.config/Claude/claude_desktop_config.json`
-
-**Cursor:**
-- macOS: `~/.cursor/mcp.json`
-- Windows: `%USERPROFILE%\.cursor\mcp.json`
-- Linux: `~/.cursor/mcp.json`
-
-設定例は `MCP_CONFIG_EXAMPLES.md` を参照してください。
-
-## 使用方法
-
-設定完了後、AI Assistantに以下のように質問できます：
-
-**例1: グローバル検索ボリューム分析**
-```
-「AI」というキーワードの全世界での検索ボリュームを調べてください
-```
-
-**例2: 地域別キーワード分析**
-```
-「機械学習」「深層学習」「AI」のキーワードについて、
-日本での月間検索数と競合度を分析してください
-```
-
-**例3: 関連キーワード提案**
-```
-「クラウドコンピューティング」に関連するキーワードを提案してください
-```
+stdio MCPとして動作します。HTTPサーバーやブラウザ上の認証サービスは提供しません。広告を作成・変更するツールはありませんが、OAuthスコープ自体は読み取り専用ではありません。MCPクライアント経由で調査結果が外部AIサービスに送信される可能性があります。
 
 ## 開発
 
-### 開発モード（watchモード）
-
 ```bash
+npm ci
+npm test
 npm run dev
 ```
 
-### 直接実行（開発時のテスト）
+Node.js 22.9以上を使用します。テストは偽の認証情報とローカルコールバックで実行し、Google Adsへの実リクエストを送りません。
+
+## ブランチ運用
+
+- `dev`：デフォルトブランチ。`feature/*`からPRを作成します。
+- `main`：リリース用。`dev`からPRで反映します。
+- 専用git worktreeはクローン本体配下の`.claude/.worktrees/<branch-name>`に作成します。
+- マージはマージコミットを作成し、ブランチとworktreeを保持します。
 
 ```bash
-# 環境変数を読み込んで実行
-export $(cat .env | xargs) && node dist/index.js
+git fetch origin
+git worktree add -b feature/topic .claude/.worktrees/feature-topic origin/dev
 ```
 
-## トラブルシューティング
+## その他の資料
 
-### "Missing required Google Ads configuration" エラー
+- [認証情報の保護](SECURITY.md)
+- [Windows](WINDOWS_SETUP.md)
+- [Docker](DOCKER_SETUP.md)
+- [利用例](USAGE_EXAMPLES.md)
+- [公式Google Ads API](https://developers.google.com/google-ads/api/docs/start)
 
-環境変数が正しく設定されているか確認してください。MCPクライアント設定ファイルの`env`セクションをチェック。
-
-### "Failed to connect to Google Ads API" エラー
-
-- Developer Tokenが有効か確認
-- Refresh Tokenが期限切れでないか確認
-- Customer IDが正しい形式（10桁、ハイフンなし）か確認
-
-### 権限エラー
-
-Google Ads アカウントに適切な権限があることを確認してください（最低でも標準アクセス）。
-
-## ライセンス
-
-MIT
-
-## 📚 ドキュメント
-
-- `SETUP_GUIDE.md` - クイックスタートガイド
-- `MCP_CONFIG_EXAMPLES.md` - MCPクライアント別設定例
-- `WINDOWS_SETUP.md` - Windows専用セットアップ
-- `NPM_PUBLISH.md` - npmパッケージ公開ガイド
-- `DOCKER_SETUP.md` - Docker使用ガイド
-- `USAGE_EXAMPLES.md` - 使用例集
-- `SECURITY.md` - セキュリティガイド
-- `setup-auth.md` - 認証情報取得の詳細
-
-## 🤝 コントリビューション
-
-### ブランチ運用
-
-| ブランチ | 役割 |
-|---|---|
-| `main` | 本番用ブランチ。リリース済みの内容のみを保持します |
-| `dev` | 開発用プライマリブランチ（デフォルトブランチ）。日常の開発はここに集約します |
-| `feature/*` | 個別の機能・修正用ブランチ。`dev` から分岐します |
-
-- 日常開発: `feature/*` → `dev` へプルリクエスト
-- リリース: `dev` → `main` へプルリクエスト
-- マージは merge commit のみ（squash / rebase マージは無効化しています）
-- `main` / `dev` への直接 push・force push・削除は保護ルールで制限しています
-
-プルリクエスト歓迎！以下の手順で：
-
-1. このリポジトリをフォーク
-2. `dev` からフィーチャーブランチを作成 (`git checkout -b feature/amazing-feature dev`)
-3. 変更をコミット (`git commit -m 'Add amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. `dev` 向けにプルリクエストを開く
-
-## 📄 ライセンス
-
-MIT License - 詳細は [LICENSE](LICENSE) を参照
-
-## 🔗 参考リンク
-
-- [Model Context Protocol](https://modelcontextprotocol.io/)
-- [Google Ads API Documentation](https://developers.google.com/google-ads/api/docs/start)
-- [google-ads-api npm package](https://www.npmjs.com/package/google-ads-api)
-- [npm Package](https://www.npmjs.com/package/@kazuya.oda/google-ads-mcp)
-- [Docker Hub](https://hub.docker.com/r/kazy1014/google-ads-mcp)
-
+MIT License。Googleの公式製品ではありません。

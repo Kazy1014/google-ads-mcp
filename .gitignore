@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
@@ -45,3 +44,16 @@ tmp/
 *.tgz
 package/
 
+
+# OAuth downloads and credentials
+.env.*
+!.env.example
+!.env.docker.example
+client_secret*.json
+oauth*.json
+credentials*.json
+*.env
+.*.env.*.tmp
+
+# Dedicated worktrees
+.claude/.worktrees/

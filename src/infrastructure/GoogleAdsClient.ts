@@ -18,7 +18,9 @@ export class GoogleAdsClient {
       this.client = new GoogleAdsApi({
         client_id: config.clientId,
         client_secret: config.clientSecret,
-        developer_token: config.developerToken,
+        // Compatibility value for clients/endpoints requiring a non-empty legacy header.
+        // API access is governed by the OAuth client's Cloud project.
+        developer_token: config.developerToken || 'cloud-project-auth',
       });
 
       this.customer = this.client.Customer({

@@ -1,3 +1,5 @@
+> 2026-09-30更新：新しいGoogle Cloud認可と取得手順は[CLOUD_AUTH_SETUP.md](CLOUD_AUTH_SETUP.md)、[setup-auth.md](setup-auth.md)、[MCP_CONFIG_EXAMPLES.md](MCP_CONFIG_EXAMPLES.md)を参照してください。以下は配布手順です。既存npm/Dockerイメージへの反映は別のリリース作業です。
+
 # npmパッケージ公開ガイド
 
 このガイドでは、Google Ads MCPサーバーをnpmに公開して、誰でも簡単にインストールできるようにする手順を説明します。
@@ -108,7 +110,6 @@ npm publish
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id",
         "GOOGLE_ADS_CLIENT_SECRET": "your-secret",
-        "GOOGLE_ADS_DEVELOPER_TOKEN": "your-token",
         "GOOGLE_ADS_REFRESH_TOKEN": "your-refresh-token",
         "GOOGLE_ADS_CUSTOMER_ID": "1234567890",
         "SKIP_CONNECTION_TEST": "true"
@@ -134,7 +135,6 @@ npm install -g @kazuya.oda/google-ads-mcp
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "your-client-id",
         "GOOGLE_ADS_CLIENT_SECRET": "your-secret",
-        "GOOGLE_ADS_DEVELOPER_TOKEN": "your-token",
         "GOOGLE_ADS_REFRESH_TOKEN": "your-refresh-token",
         "GOOGLE_ADS_CUSTOMER_ID": "1234567890",
         "SKIP_CONNECTION_TEST": "true"

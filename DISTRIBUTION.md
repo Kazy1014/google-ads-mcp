@@ -1,3 +1,5 @@
+> 2026-09-30更新：新しいGoogle Cloud認可と取得手順は[CLOUD_AUTH_SETUP.md](CLOUD_AUTH_SETUP.md)、[setup-auth.md](setup-auth.md)、[MCP_CONFIG_EXAMPLES.md](MCP_CONFIG_EXAMPLES.md)を参照してください。以下は配布手順です。既存npm/Dockerイメージへの反映は別のリリース作業です。
+
 # 配布方法まとめ
 
 Google Ads MCPサーバーを誰でも簡単に使えるようにする3つの方法を説明します。
@@ -42,7 +44,6 @@ google-ads-mcp
       "env": {
         "GOOGLE_ADS_CLIENT_ID": "...",
         "GOOGLE_ADS_CLIENT_SECRET": "...",
-        "GOOGLE_ADS_DEVELOPER_TOKEN": "...",
         "GOOGLE_ADS_REFRESH_TOKEN": "...",
         "GOOGLE_ADS_CUSTOMER_ID": "..."
       }

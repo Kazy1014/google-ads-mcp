@@ -1,214 +1,31 @@
-# セキュリティガイド
+# 認証情報とデータの保護
 
-## ⚠️ 公開してはいけない情報
+利用者自身のOAuthクライアント・Google Adsアカウントで認証します。配布者の認証情報は同梱しません。
 
-以下の情報は**絶対に公開しないでください**：
+## 公開しないもの
 
-### 🔴 極めて重要（即座に悪用可能）
+- Client Secret、Refresh Token、Access Token、認証コード、Developer Token
+- OAuthクライアントJSON、.env、MCP設定中の実環境値
+- 実アカウントID、個人メール、ローカルパス、ログや審査画面の個人情報
 
-1. **GOOGLE_ADS_CLIENT_SECRET**
-   - OAuth2クライアントシークレット
-   - 漏洩した場合、攻撃者があなたのアプリケーションになりすまし可能
+Client IDやアカウントIDはパスワードではありませんが、公開Issue・PRでは自分の実値を伏せてください。質問時はエラーコードと再現条件を伝え、レスポンス全体・設定ファイル・スクリーンショットを貼り付けないでください。
 
-2. **GOOGLE_ADS_REFRESH_TOKEN**
-   - OAuth2リフレッシュトークン
-   - 漏洩した場合、攻撃者があなたのGoogle Adsアカウントに無期限アクセス可能
-   - **最も危険な情報**
+## 保存と実行
 
-3. **GOOGLE_ADS_DEVELOPER_TOKEN**
-   - Google Ads API開発者トークン
-   - 漏洩した場合、あなたのAPIクォータが悪用される可能性
+認証情報はリポジトリ外の非公開.envやクライアントJSONへ保存します。macOS/Linuxはファイルモード600、ディレクトリ700、WindowsはACLを確認してください。ユーザー共通MCP登録では秘密値をコマンドラインへ直接渡さず、`--env-file`を使います。
 
-### 🟡 重要（組み合わせで悪用可能）
+.gitignoreと.dockerignoreで秘密ファイルを除外します。Git・Docker・npmの公開対象を送信前に確認してください。ignore設定は既に追跡されている秘密を除去しません。`git add -f`で回避しないでください。
 
-4. **GOOGLE_ADS_CLIENT_ID**
-   - 単体では危険性は低いが、他の情報と組み合わせると悪用可能
+トークン取得ヘルパーはstateとPKCEを使用し、127.0.0.1の一時ポートへコールバックします。トークン・Secret・認証コード・トークン応答を出力しません。認証URLには公開Client IDが含まれるため、URLも公開投稿へコピーしないでください。
 
-5. **GOOGLE_ADS_CUSTOMER_ID / LOGIN_CUSTOMER_ID**
-   - アカウントIDは公開情報に近いが、できれば非公開推奨
+## API結果・ログ
 
-## 📁 保護されているファイル（.gitignoreで除外済み）
+このMCPはGoogleへ条件を送信し、結果をクライアントへ返します。クライアントがAIサービスを使う場合、結果がそのサービスへ渡る可能性があります。設定・ログ・会話履歴の保存期間と削除は、利用者の実行環境・接続先で管理します。サーバーがすべての外部データの保存・学習利用を制御することはできません。
 
-以下のファイルは`.gitignore`で保護されています：
+API失敗時のログやエラー詳細に入力・アカウント情報が含まれる場合があります。公開ログへ転送する前に確認してください。OAuthスコープ`adwords`自体は読み取り専用ではありません。
 
-```
-✅ .env                    # 環境変数ファイル
-✅ .env.local              # ローカル環境変数
-✅ *.log                   # ログファイル
-✅ dist/                   # ビルド済みファイル（実行時にトークンを含む可能性）
-```
+## 失効・漏えい時
 
-## ⚠️ 注意が必要なファイル
+Googleアカウントの[サードパーティ接続](https://myaccount.google.com/connections)からアプリのアクセス許可を取り消します。必要ならClient Secretを再発行し、[認証取得手順](setup-auth.md)で新しいRefresh Tokenを取得します。共通.envを更新し、MCPクライアントを再起動してください。
 
-### Claude Desktop設定ファイル
-
-**場所：**
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-
-**問題：**
-このファイルには**平文で全ての認証情報が保存**されています。
-
-**対策：**
-```bash
-# ファイルのパーミッションを確認
-ls -la ~/Library/Application\ Support/Claude/claude_desktop_config.json
-
-# 自分だけが読み書きできるように設定（推奨）
-chmod 600 ~/Library/Application\ Support/Claude/claude_desktop_config.json
-```
-
-### ログファイル
-
-**場所：**
-- `~/Library/Logs/Claude/mcp-server-google-ads.log`
-
-**問題：**
-エラー時にトークンの一部が含まれる可能性があります。
-
-**対策：**
-```bash
-# ログファイルを定期的に削除
-rm ~/Library/Logs/Claude/mcp-server-google-ads.log
-
-# またはパーミッション制限
-chmod 600 ~/Library/Logs/Claude/mcp-server-google-ads.log
-```
-
-## 🔒 セキュリティベストプラクティス
-
-### 1. 環境変数の管理
-
-```bash
-# ✅ 良い例：.envファイルを使用（.gitignoreで除外されている）
-GOOGLE_ADS_CLIENT_SECRET=your-secret
-
-# ❌ 悪い例：ソースコードに直接記述
-const secret = "your-secret"; // 絶対にダメ！
-```
-
-### 2. トークンのローテーション
-
-定期的にトークンを更新してください：
-
-```bash
-# Refresh Tokenの再取得
-npm run get-refresh-token
-```
-
-### 3. 最小権限の原則
-
-- **テストアカウント**を使用する
-- 本番アカウントには最小限の権限のみ付与
-- MCCアカウントで子アカウントへのアクセスを制限
-
-### 4. Git管理
-
-```bash
-# Gitリポジトリを初期化する前に
-git init
-
-# .gitignoreが正しく機能しているか確認
-git status
-
-# 以下が表示されないことを確認：
-# - .env
-# - Claude設定ファイルのバックアップ
-# - ログファイル
-```
-
-## 🚨 万が一、認証情報が漏洩した場合
-
-### 即座に実行すべきこと
-
-#### 1. Refresh Tokenの無効化
-
-```bash
-1. Google Cloud Console にアクセス
-2. 該当するプロジェクトを選択
-3. 「APIとサービス」→「認証情報」
-4. OAuth 2.0 クライアントIDを削除または再作成
-5. 新しいRefresh Tokenを取得
-```
-
-#### 2. Client Secretのリセット
-
-```bash
-1. Google Cloud Console の「認証情報」
-2. OAuth 2.0 クライアントIDを編集
-3. 「クライアントシークレットをリセット」
-4. 新しいClient Secretを取得
-```
-
-#### 3. Developer Tokenの無効化
-
-```bash
-1. https://ads.google.com/aw/apicenter にアクセス
-2. 既存のDeveloper Tokenを無効化
-3. 新しいトークンを発行
-```
-
-#### 4. 不審なアクティビティの確認
-
-```bash
-1. Google Adsの管理画面で変更履歴を確認
-2. Google Cloud Consoleの監査ログを確認
-3. 不審なアクセスがあれば、Googleサポートに連絡
-```
-
-## 📋 公開前チェックリスト
-
-GitHubなどに公開する前に以下を確認：
-
-```bash
-☐ .gitignoreが適切に設定されている
-☐ .envファイルが除外されている
-☐ 設定ファイルのバックアップが除外されている
-☐ ログファイルが除外されている
-☐ ソースコード内に認証情報が含まれていない
-☐ READMEのサンプルがダミー値になっている
-☐ package-lock.jsonに問題がない（通常は問題なし）
-
-# 確認コマンド
-grep -r "GOCSPX-\|refresh_token\|developer.*token" src/ *.md --exclude-dir=node_modules
-```
-
-## 🔐 推奨：環境変数の暗号化
-
-より高度なセキュリティが必要な場合：
-
-### 1. git-cryptを使用
-
-```bash
-# git-cryptをインストール
-brew install git-crypt
-
-# GPGキーで暗号化
-git-crypt init
-git-crypt add-gpg-user YOUR_GPG_KEY_ID
-
-# .envファイルを暗号化対象に追加
-echo ".env filter=git-crypt diff=git-crypt" >> .gitattributes
-```
-
-### 2. 1Passwordやキーチェーンの使用
-
-macOSキーチェーンに保存：
-```bash
-# トークンを保存
-security add-generic-password -a "google-ads-mcp" -s "refresh_token" -w "YOUR_TOKEN"
-
-# トークンを取得
-security find-generic-password -a "google-ads-mcp" -s "refresh_token" -w
-```
-
-## 📞 サポート
-
-セキュリティに関する質問や懸念がある場合：
-- Google Cloud Security: https://cloud.google.com/security
-- Google Ads API Support: https://developers.google.com/google-ads/api/support
-
-## ⚖️ 免責事項
-
-このプロジェクトはMITライセンスの下で提供されています。認証情報の管理はユーザーの責任で行ってください。作者は認証情報の漏洩によって生じた損害について一切の責任を負いません。
-
+Gitに秘密が入った場合は、ファイルを後から削除するだけでは不十分です。先に対象資格情報を失効し、履歴・PR・ログ・配布物への残存を調べて対応します。漏えいした値を報告本文に再掲載しないでください。

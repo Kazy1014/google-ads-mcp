@@ -41,3 +41,11 @@ tmp/
 .cache/
 
 
+
+# OAuth downloads and nested worktrees
+client_secret*.json
+oauth*.json
+credentials*.json
+.claude/
+*.env
+.*.env.*.tmp

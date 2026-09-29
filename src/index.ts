@@ -20,7 +20,7 @@ process.on('warning', (warning) => {
 
 async function main() {
   try {
-    console.error('Starting Google Ads MCP Server...');
+    console.error('Starting google-keyword-planner...');
     
     // Load and validate configuration
     console.error('Loading configuration...');
