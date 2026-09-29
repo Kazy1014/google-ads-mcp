@@ -1,11 +1,12 @@
 {
   "name": "@kazuya.oda/google-ads-mcp",
   "version": "1.1.0",
-  "description": "MCP server for Google Ads API with Keyword Planner integration. Analyze keyword search volumes, competition, and trends.",
+  "description": "google-keyword-planner: local MCP server for Google Ads keyword research with user-owned Google Cloud OAuth.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "google-ads-mcp": "./dist/index.js"
+    "google-ads-mcp": "./dist/index.js",
+    "google-keyword-planner": "./dist/index.js"
   },
   "files": [
     "dist/",
@@ -13,7 +14,14 @@
     "README.md",
     "LICENSE",
     "SETUP_GUIDE.md",
-    "USAGE_EXAMPLES.md"
+    "USAGE_EXAMPLES.md",
+    "CLOUD_AUTH_SETUP.md",
+    "CHANGELOG.md",
+    "setup-auth.md",
+    "MCP_CONFIG_EXAMPLES.md",
+    "SECURITY.md",
+    "WINDOWS_SETUP.md",
+    "DOCKER_SETUP.md"
   ],
   "repository": {
     "type": "git",
@@ -26,9 +34,10 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node dist/index.js",
+    "start": "node --env-file-if-exists=.env dist/index.js",
     "prepare": "npm run build",
-    "get-refresh-token": "tsx scripts/get-refresh-token.ts"
+    "get-refresh-token": "node scripts/get-refresh-token.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs"
   },
   "keywords": [
     "mcp",
@@ -38,7 +47,7 @@
     "cross-platform"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.9.0"
   },
   "os": [
     "darwin",
@@ -49,7 +58,7 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
-    "google-ads-api": "^21.0.1",
+    "google-ads-api": "^25.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

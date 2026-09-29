@@ -1,23 +1,11 @@
 {
-  "_comment": "このファイルはWindows環境用の設定例です。Claude Desktop、Cursor両方で使えます。",
-  "_claude_desktop_path": "%APPDATA%\\Claude\\claude_desktop_config.json",
-  "_cursor_path": "%USERPROFILE%\\.cursor\\mcp.json",
   "mcpServers": {
-    "google-ads": {
-      "command": "npx",
+    "google-keyword-planner": {
+      "command": "node",
       "args": [
-        "-y",
-        "@kazuya.oda/google-ads-mcp"
-      ],
-      "env": {
-        "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_ADS_CLIENT_SECRET": "your-client-secret",
-        "GOOGLE_ADS_DEVELOPER_TOKEN": "your-developer-token",
-        "GOOGLE_ADS_REFRESH_TOKEN": "your-refresh-token",
-        "GOOGLE_ADS_CUSTOMER_ID": "1234567890",
-        "GOOGLE_ADS_LOGIN_CUSTOMER_ID": "9876543210",
-        "SKIP_CONNECTION_TEST": "true"
-      }
+        "--env-file=C:\\private\\google-ads.env",
+        "C:\\tools\\google-ads-mcp\\dist\\index.js"
+      ]
     }
   }
 }

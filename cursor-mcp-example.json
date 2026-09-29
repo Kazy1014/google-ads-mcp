@@ -1,21 +1,11 @@
 {
   "mcpServers": {
-    "google-ads": {
-      "command": "npx",
+    "google-keyword-planner": {
+      "command": "node",
       "args": [
-        "-y",
-        "@kazuya.oda/google-ads-mcp"
-      ],
-      "env": {
-        "GOOGLE_ADS_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
-        "GOOGLE_ADS_CLIENT_SECRET": "GOCSPX-xxxxx",
-        "GOOGLE_ADS_DEVELOPER_TOKEN": "your-developer-token",
-        "GOOGLE_ADS_REFRESH_TOKEN": "1//0xxxxx",
-        "GOOGLE_ADS_CUSTOMER_ID": "1234567890",
-        "GOOGLE_ADS_LOGIN_CUSTOMER_ID": "9876543210",
-        "SKIP_CONNECTION_TEST": "true"
-      }
+        "--env-file=/private/path/.env",
+        "/absolute/path/to/google-ads-mcp/dist/index.js"
+      ]
     }
   }
 }
-

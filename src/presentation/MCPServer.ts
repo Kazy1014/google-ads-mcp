@@ -19,7 +19,7 @@ export class MCPServer {
   constructor(private keywordPlannerUseCase: KeywordPlannerUseCase) {
     this.server = new Server(
       {
-        name: 'google-ads-mcp',
+        name: 'google-keyword-planner',
         version: '1.0.0',
       },
       {
@@ -202,7 +202,7 @@ export class MCPServer {
       const transport = new StdioServerTransport();
       await this.server.connect(transport);
       
-      console.error('Google Ads MCP Server running on stdio');
+      console.error('google-keyword-planner running on stdio');
     } catch (error) {
       console.error('Failed to start MCP server:', error instanceof Error ? error.message : error);
       if (error instanceof Error && error.stack) {

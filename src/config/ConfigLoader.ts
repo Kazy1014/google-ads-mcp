@@ -14,10 +14,10 @@ export class ConfigLoader {
     const customerId = process.env.GOOGLE_ADS_CUSTOMER_ID;
     const loginCustomerId = process.env.GOOGLE_ADS_LOGIN_CUSTOMER_ID;
 
-    if (!clientId || !clientSecret || !developerToken || !refreshToken || !customerId) {
+    if (!clientId || !clientSecret || !refreshToken || !customerId) {
       throw new GoogleAdsError(
         'Missing required Google Ads configuration. Please set environment variables: ' +
-        'GOOGLE_ADS_CLIENT_ID, GOOGLE_ADS_CLIENT_SECRET, GOOGLE_ADS_DEVELOPER_TOKEN, ' +
+        'GOOGLE_ADS_CLIENT_ID, GOOGLE_ADS_CLIENT_SECRET, ' +
         'GOOGLE_ADS_REFRESH_TOKEN, GOOGLE_ADS_CUSTOMER_ID',
         'CONFIG_ERROR'
       );
@@ -40,10 +40,6 @@ export class ConfigLoader {
 
     if (!config.clientSecret || config.clientSecret.trim() === '') {
       throw new GoogleAdsError('Client Secret is required', 'VALIDATION_ERROR');
-    }
-
-    if (!config.developerToken || config.developerToken.trim() === '') {
-      throw new GoogleAdsError('Developer Token is required', 'VALIDATION_ERROR');
     }
 
     if (!config.refreshToken || config.refreshToken.trim() === '') {

@@ -8,11 +8,9 @@ services:
     image: google-ads-mcp:latest
     container_name: google-ads-mcp
     stdin_open: true  # Keep stdin open for stdio communication
-    tty: true         # Allocate a pseudo-TTY
     environment:
       - GOOGLE_ADS_CLIENT_ID=${GOOGLE_ADS_CLIENT_ID}
       - GOOGLE_ADS_CLIENT_SECRET=${GOOGLE_ADS_CLIENT_SECRET}
-      - GOOGLE_ADS_DEVELOPER_TOKEN=${GOOGLE_ADS_DEVELOPER_TOKEN}
       - GOOGLE_ADS_REFRESH_TOKEN=${GOOGLE_ADS_REFRESH_TOKEN}
       - GOOGLE_ADS_CUSTOMER_ID=${GOOGLE_ADS_CUSTOMER_ID}
       - GOOGLE_ADS_LOGIN_CUSTOMER_ID=${GOOGLE_ADS_LOGIN_CUSTOMER_ID}

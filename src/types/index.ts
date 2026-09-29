@@ -5,7 +5,7 @@
 export interface GoogleAdsConfig {
   clientId: string;
   clientSecret: string;
-  developerToken: string;
+  developerToken?: string;
   refreshToken: string;
   customerId: string;
   loginCustomerId?: string;
